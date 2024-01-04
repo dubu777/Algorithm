@@ -1,56 +1,40 @@
-from collections import deque
-import copy
+import sys
 
-n = int(input())
-graph = []
-for _ in range(n):
-    graph.append(list(input()))
 
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
-graph1 = copy.deepcopy(graph)
+def search(graph):
+    dy = [1, -1, 0, 0]
+    dx = [0, 0, 1, -1]
+    visited = [[0 for j in range(N)] for i in range(N)]
 
-def bfs0(x, y):
-    queue = deque()
-    color = graph[x][y]
-    queue.append((x, y))
-    graph[x][y] = 0
-    while queue:
-        x, y = queue.popleft()
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if nx<0 or ny<0 or nx>=n or ny>=n:
-                continue
-            if graph[nx][ny] != color:
-                continue
-            queue.append((nx, ny))
-            graph[nx][ny] = 0
+    ans = 0
+    for i in range(N):
+        for j in range(N):
+            if visited[i][j] == 0:
+                stack = [(i, j)]
+                visited[i][j] = 1
+                while stack:
+                    y, x = stack.pop()
+                    for idx in range(4):
+                        new_y, new_x = y + dy[idx], x + dx[idx]
+                        if 0 <= new_y < N and 0 <= new_x < N and visited[new_y][new_x] == 0:
+                            if graph[y][x] == graph[new_y][new_x]:
+                                stack.append((new_y, new_x))
+                                visited[new_y][new_x] = 1
+                ans += 1
+    return ans
 
-def bfs1(x, y):
-    queue = deque()
-    color = graph1[x][y]
-    queue.append((x, y))
-    graph1[x][y] = 0
-    while queue:
-        x, y = queue.popleft()
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if nx<0 or ny<0 or nx>=n or ny>=n:
-                continue
-            if color == graph1[nx][ny] or {color, graph1[nx][ny]} == {'G', 'R'}:
-                queue.append((nx, ny))
-                graph1[nx][ny] = 0
 
-count, count1 = 0, 0
-for i in range(n):
-    for j in range(n):
-        if graph[i][j] != 0:
-            bfs0(i,j)
-            count += 1
-        if graph1[i][j] != 0:
-            bfs1(i,j)
-            count1 += 1
+N = int(sys.stdin.readline())
+paint = []
+for i in range(N):
+    line = list(sys.stdin.readline().strip())
+    paint.append(line)
+key1 = search(paint)
 
-print(count, count1)
+for i in range(N):
+    for j in range(N):
+        if paint[i][j] == "R":
+            paint[i][j] = "G"
+key2 = search(paint)
+
+print(key1, key2)
