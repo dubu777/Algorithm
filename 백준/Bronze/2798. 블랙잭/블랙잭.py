@@ -1,12 +1,9 @@
-from itertools import permutations
-
 n, m = map(int, input().split())
 lst = list(map(int, input().split()))
-res = 0
-for num in permutations(lst, 3):
-    if sum(num) > m:
-        continue
-    if res < sum(num):
-        res = sum(num)
-
-print(res)
+ans = 0
+for i in range(n-2):
+    for j in range(i+1, n-1):
+        for k in range(j+1, n):
+            if ans < lst[i]+lst[j]+lst[k] <= m:
+                ans = lst[i]+lst[j]+lst[k]
+print(ans)
