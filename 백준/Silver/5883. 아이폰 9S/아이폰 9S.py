@@ -1,5 +1,6 @@
-n = int(input())
-lst = [int(input()) for _ in range(n)]
+import sys
+n = int(sys.stdin.readline())
+lst = [int(sys.stdin.readline()) for _ in range(n)]
 num_set = list(set(lst))
 
 cnt_lst = []
@@ -9,7 +10,7 @@ for sn in num_set:
         if ln != sn:
             temp_lst.append(ln)
     cnt = 1
-    max_cnt = 0
+    max_cnt = 1
 
     for i in range(1, len(temp_lst)):
         if temp_lst[i-1] == temp_lst[i]:
@@ -23,6 +24,4 @@ for sn in num_set:
     cnt_lst.append(max_cnt)
 
 ans = max(cnt_lst)
-if ans == 0:
-    ans = 1
 print(ans)
