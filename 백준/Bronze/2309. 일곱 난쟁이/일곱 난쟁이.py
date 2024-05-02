@@ -1,14 +1,15 @@
-alst = []
-for _ in range(9):
-    alst.append(int(input()))
-num = sum(alst)-100
-for i in range(9):
-    for j in range(9):
-        if not i == j and alst[i] + alst[j] == num:
-            i_idx, j_idx = i, j
-            break
-alst.remove(alst[i_idx])
-alst.remove(alst[j_idx])
-alst.sort()
-for a in alst:
-    print(a)
+lst = sorted([int(input()) for _ in range(9)])
+s = 0
+e = 8
+now = sum(lst) - 100
+
+while s < e:
+    if lst[s] + lst[e] < now:
+        s += 1
+    elif lst[s] + lst[e] > now:
+        e -= 1
+    else:
+        for i in range(9):
+            if i != s and i != e:
+                print(lst[i])
+        break
