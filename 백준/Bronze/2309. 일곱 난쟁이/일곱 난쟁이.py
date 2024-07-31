@@ -12,4 +12,4 @@ while s < e:
         for i in range(9):
             if i != s and i != e:
                 print(lst[i])
-        break
+        break 
